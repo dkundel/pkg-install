@@ -7,6 +7,7 @@
 
 - Supports [npm](npmjs.com) and [yarn](yarnpkg.com)
 - Easy to use promise-based API
+- Uses [`execa`](npm.im/execa) under the hood
 
 ## Installation
 
@@ -19,16 +20,20 @@ npm install pkg-install
 ```js
 import install from 'pkg-install';
 
-async run() {
-  await install({
-    'twilio': '^3.1',
-    'node-env-run': '~1',
-    'pkg-install': '*',
-  }, {
-    dev: true,
-    prefer: 'npm'
-  })
-}
+(async () => {
+  const { stdout } = await install(
+    {
+      twilio: '^3.1',
+      'node-env-run': '~1',
+      'pkg-install': '*',
+    },
+    {
+      dev: true,
+      prefer: 'npm',
+    }
+  );
+  console.log(stdout);
+})();
 ```
 
 ## License
