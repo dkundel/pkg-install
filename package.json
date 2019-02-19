@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "A wrapper making installation of Node.js packages from code easier",
   "main": "lib/index.js",
-  "bin": "examples/install.js",
   "scripts": {
     "start": "npm run dev",
     "dev": "tsc --watch",
@@ -41,5 +40,10 @@
     "@types/execa": "^0.9.0",
     "@types/node": "^11.9.4",
     "execa": "^1.0.0"
-  }
+  },
+  "files": [
+    "lib/",
+    "LICENSE",
+    "README.md"
+  ]
 }
