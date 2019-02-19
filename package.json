@@ -4,6 +4,7 @@
   "description": "A wrapper making installation of Node.js packages from code easier",
   "main": "lib/index.js",
   "scripts": {
+    "prepare": "npm run build",
     "start": "npm run dev",
     "dev": "tsc --watch",
     "build": "tsc",
@@ -42,7 +43,7 @@
     "execa": "^1.0.0"
   },
   "files": [
-    "lib/",
+    "lib/!(__tests__)",
     "LICENSE",
     "README.md"
   ]
