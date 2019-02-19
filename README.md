@@ -18,7 +18,7 @@ npm install pkg-install
 ## Usage
 
 ```js
-import install from 'pkg-install';
+const { install } = require('pkg-install');
 
 (async () => {
   const { stdout } = await install(
