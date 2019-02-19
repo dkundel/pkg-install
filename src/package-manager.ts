@@ -1,6 +1,8 @@
 /** @module pkg-install */
 
 import execa from 'execa';
+import { accessSync, promises as fs } from 'fs';
+import path from 'path';
 import { InstallConfig, SupportedPackageManagers } from './types';
 
 /**
@@ -60,6 +62,56 @@ export function getCurrentPackageManager(): SupportedPackageManagers | null {
 }
 
 /**
+ * Checks for the presence of package-lock.json or yarn.lock to determine which package manager is being used
+ *
+ * @export
+ * @param {InstallConfig} config Config specifying current working directory
+ * @returns
+ */
+export async function getPackageManagerFromLockfile(
+  config: InstallConfig
+): Promise<SupportedPackageManagers | null> {
+  const pkgLockPath = path.join(config.cwd, 'package-lock.json');
+  const yarnLockPath = path.join(config.cwd, 'yarn.lock');
+  try {
+    await fs.access(pkgLockPath);
+    return 'npm';
+  } catch (err) {
+    try {
+      await fs.access(yarnLockPath);
+      return 'yarn';
+    } catch (err) {
+      return null;
+    }
+  }
+}
+
+/**
+ * SYNC: Checks for the presence of package-lock.json or yarn.lock to determine which package manager is being used
+ *
+ * @export
+ * @param {InstallConfig} config Config specifying current working directory
+ * @returns
+ */
+export function getPackageManagerFromLockfileSync(
+  config: InstallConfig
+): SupportedPackageManagers | null {
+  const pkgLockPath = path.join(config.cwd, 'package-lock.json');
+  const yarnLockPath = path.join(config.cwd, 'yarn.lock');
+  try {
+    accessSync(pkgLockPath);
+    return 'npm';
+  } catch (err) {
+    try {
+      accessSync(yarnLockPath);
+      return 'yarn';
+    } catch (err) {
+      return null;
+    }
+  }
+}
+
+/**
  * Determine what package manager to use based on what preference is set,
  * and whether it's currently running in a yarn/npm script
  *
@@ -71,6 +123,10 @@ export async function getPackageManager(
   config: InstallConfig
 ): Promise<SupportedPackageManagers> {
   let pkgManager = config.prefer || getCurrentPackageManager();
+
+  if (!pkgManager) {
+    pkgManager = await getPackageManagerFromLockfile(config);
+  }
 
   if (!pkgManager) {
     pkgManager = 'npm';
@@ -98,7 +154,12 @@ export async function getPackageManager(
 export function getPackageManagerSync(
   config: InstallConfig
 ): SupportedPackageManagers {
-  let pkgManager = config.prefer || getCurrentPackageManager();
+  let pkgManager: SupportedPackageManagers | null =
+    config.prefer || getCurrentPackageManager();
+
+  if (!pkgManager) {
+    pkgManager = getPackageManagerFromLockfileSync(config);
+  }
 
   if (!pkgManager) {
     pkgManager = 'npm';
