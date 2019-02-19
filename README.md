@@ -17,6 +17,8 @@ npm install pkg-install
 
 ## Usage
 
+### Install a set of known dependencies to a project
+
 ```js
 const { install } = require('pkg-install');
 
@@ -25,7 +27,7 @@ const { install } = require('pkg-install');
     {
       twilio: '^3.1',
       'node-env-run': '~1',
-      'pkg-install': '*',
+      'pkg-install': undefined,
     },
     {
       dev: true,
@@ -36,8 +38,65 @@ const { install } = require('pkg-install');
 })();
 ```
 
-> Full documentation of available functions and configuration can be found on:
-> [pkg-install.dkundel.com](https://pkg-install.dkundel.com/modules/pkg_install.html)
+### Run a project install of dependencies
+
+```js
+const { projectInstall } = require('pkg-install');
+
+(async () => {
+  const { stdout } = await projectInstall({
+    prefer: 'yarn',
+  });
+  console.log(stdout);
+})();
+```
+
+### Documentation
+
+Full documentation of available functions and configuration can be found on:
+[pkg-install.dkundel.com](https://pkg-install.dkundel.com/modules/pkg_install.html)
+
+## Known Issues
+
+### 1. Disparity in supported flags
+
+At the current moment `yarn` has no equivalent flags for `--save-bundle` or `--no-save`. These will be ignored when `yarn` has been detected as package manager.
+
+### 2. Different behavior of modifying `package.json`
+
+This library uses `npm` and `yarn` under the hood and currently `npm install` and `yarn add` have different behaviors when passing versions to the package names
+
+For example
+
+```bash
+npm install twilio^3.1 node-env-run~1 pkg-install
+```
+
+Will result in the following dependencies in the `package.json`:
+
+```json
+"dependencies": {
+  "node-env-run": "^1.0.1",
+  "pkg-install": "^0.1.1",
+  "twilio": "^3.28.1"
+}
+```
+
+While:
+
+```bash
+yarn add twilio@^3.1 node-env-run@~1 pkg-install
+```
+
+Will result in the following dependencies in the `package.json`:
+
+```json
+"dependencies": {
+  "node-env-run": "~1",
+  "pkg-install": "^0.1.1",
+  "twilio": "^3.1"
+}
+```
 
 ## License
 
