@@ -149,7 +149,7 @@ describe('constructYarnArguments', () => {
     expect(output).toEqual(['add', ...packageList, '--verbose']);
   });
 
-  it('shoud ignore noSave option', () => {
+  it('should ignore noSave option', () => {
     const output = constructYarnArguments(packageList, {
       ...defaultConfig,
       noSave: true,
@@ -157,12 +157,20 @@ describe('constructYarnArguments', () => {
     expect(output).toEqual(['add', ...packageList]);
   });
 
-  it('shoud ignore bundle option', () => {
+  it('should ignore bundle option', () => {
     const output = constructYarnArguments(packageList, {
       ...defaultConfig,
       bundle: true,
     });
     expect(output).toEqual(['add', ...packageList]);
+  });
+
+  it('should handle global option', () => {
+    const output = constructYarnArguments(packageList, {
+      ...defaultConfig,
+      global: true,
+    });
+    expect(output).toEqual(['global', 'add', ...packageList]);
   });
 
   it('should handle all flags', () => {
@@ -228,6 +236,14 @@ describe('constructNpmArguments', () => {
       noSave: true,
     });
     expect(output).toEqual(['install', ...packageList, '--no-save']);
+  });
+
+  it('should handle global flag', () => {
+    const output = constructNpmArguments(packageList, {
+      ...defaultConfig,
+      global: true,
+    });
+    expect(output).toEqual(['install', '-g', ...packageList]);
   });
 
   it('should handle all flags', () => {

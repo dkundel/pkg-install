@@ -15,6 +15,7 @@ type InstallConfig = {
   noSave: boolean;
   bundle: boolean;
   verbose: boolean;
+  global: boolean;
   stdio: StdioOption | StdioOption[];
   cwd: string;
 };
@@ -26,6 +27,7 @@ export const defaultConfig = {
   noSave: false,
   bundle: false,
   verbose: false,
+  global: false,
   stdio: 'pipe' as StdioOption,
   cwd: process.cwd(),
 };
@@ -84,7 +86,8 @@ export function constructYarnArguments(
   packageList: PackageList,
   config: InstallConfig
 ): string[] {
-  const args: string[] = ['add', ...packageList];
+  const globalCommand = config.global ? ['global'] : [];
+  const args: string[] = [...globalCommand, 'add', ...packageList];
 
   if (config.dev) {
     args.push('--dev');
@@ -105,7 +108,8 @@ export function constructNpmArguments(
   packageList: PackageList,
   config: InstallConfig
 ): string[] {
-  const args: string[] = ['install', ...packageList];
+  const globalCommand = config.global ? ['-g'] : [];
+  const args: string[] = ['install', ...globalCommand, ...packageList];
 
   if (config.dev) {
     args.push('--save-dev');
