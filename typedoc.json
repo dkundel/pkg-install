@@ -4,5 +4,6 @@
   "mode": "modules",
   "out": "docs",
   "theme": "default",
-  "exclude": ["**/__tests__/*.ts", "**/helpers.ts", "**/npm.ts", "**/yarn.ts"]
+  "exclude": ["**/__tests__/*.ts", "**/helpers.ts", "**/npm.ts", "**/yarn.ts"],
+  "gaID": "UA-40008341-3"
 }
