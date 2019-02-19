@@ -1,4 +1,4 @@
-[![npm](https://img.shields.io/npm/v/pkg-install.svg?style=flat-square)](https://npmjs.com/packages/pkg-install) [![npm](https://img.shields.io/npm/dt/pkg-install.svg?style=flat-square)](https://npmjs.com/packages/pkg-install) [![npm](https://img.shields.io/npm/l/pkg-install.svg?style=flat-square)](/LICENSE) [![Build Status](https://travis-ci.org/dkundel/pkg-install.svg?branch=master)](https://travis-ci.org/dkundel/pkg-install)
+[![npm](https://img.shields.io/npm/v/pkg-install.svg?style=flat-square)](https://npmjs.com/package/pkg-install) [![npm](https://img.shields.io/npm/dt/pkg-install.svg?style=flat-square)](https://npmjs.com/package/pkg-install) [![npm](https://img.shields.io/npm/l/pkg-install.svg?style=flat-square)](/LICENSE) [![Build Status](https://travis-ci.org/dkundel/pkg-install.svg?branch=master)](https://travis-ci.org/dkundel/pkg-install) ![Codecov](https://img.shields.io/codecov/c/gh/dkundel/pkg-install.svg?style=flat-square)
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
 # pkg-install
