@@ -1,12 +1,35 @@
 {
   "name": "pkg-install",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A wrapper making installation of Node.js packages from code easier",
+  "main": "lib/index.js",
   "scripts": {
+    "start": "npm run dev",
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "commit": "git-cz",
+    "contrib:add": "all-contributors add",
+    "contrib:gen": "all-contributors generate",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "npm",
+    "yarn",
+    "install",
+    "cli",
+    "script"
+  ],
   "author": "Dominik Kundel <dominik.kundel@gmail.com> (https://dkundel.com)",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "all-contributors-cli": "^6.1.1",
+    "commitizen": "^3.0.5",
+    "cz-conventional-changelog": "^2.1.0",
+    "typescript": "^3.3.3"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }
