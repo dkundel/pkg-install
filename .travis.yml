@@ -1,0 +1,11 @@
+language: node_js
+
+node_js:
+  - 'stable'
+
+sudo: false
+
+cache:
+  yarn: false
+  directories:
+    - 'node_modules'

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A wrapper making installation of Node.js packages from code easier",
   "main": "lib/index.js",
+  "bin": "examples/install.js",
   "scripts": {
     "start": "npm run dev",
     "dev": "tsc --watch",
@@ -10,7 +11,7 @@
     "commit": "git-cz",
     "contrib:add": "all-contributors add",
     "contrib:gen": "all-contributors generate",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [
     "npm",
@@ -22,14 +23,23 @@
   "author": "Dominik Kundel <dominik.kundel@gmail.com> (https://dkundel.com)",
   "license": "MIT",
   "devDependencies": {
+    "@types/jest": "^24.0.6",
     "all-contributors-cli": "^6.1.1",
     "commitizen": "^3.0.5",
     "cz-conventional-changelog": "^2.1.0",
+    "jest": "^24.1.0",
+    "ora": "^3.1.0",
+    "ts-jest": "^24.0.0",
     "typescript": "^3.3.3"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "dependencies": {
+    "@types/execa": "^0.9.0",
+    "@types/node": "^11.9.4",
+    "execa": "^1.0.0"
   }
 }
