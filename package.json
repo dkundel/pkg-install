@@ -10,10 +10,12 @@
     "dev": "tsc --watch",
     "build": "tsc",
     "commit": "git-cz",
+    "docs": "typedoc --options typedoc.json",
     "contrib:add": "all-contributors add",
     "contrib:gen": "all-contributors generate",
     "test": "jest"
   },
+  "homepage": "https://pkg-install.dkundel.com/",
   "keywords": [
     "npm",
     "yarn",
