@@ -1,9 +1,5 @@
 import { InstallConfig, PackageList } from './types';
 
-/**
- * @internal
- */
-
 export function constructNpmArguments(
   packageList: PackageList,
   config: InstallConfig
@@ -33,3 +29,5 @@ export function constructNpmArguments(
 
   return args;
 }
+
+export const npmProjectInstallArgs = ['install'];

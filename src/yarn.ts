@@ -21,3 +21,5 @@ export function constructYarnArguments(
 
   return args;
 }
+
+export const yarnProjectInstallArgs = ['install'];

@@ -2,10 +2,10 @@
 
 import execa from 'execa';
 import { getExecaConfig, getPackageList } from './helpers';
-import { constructNpmArguments } from './npm';
+import { constructNpmArguments, npmProjectInstallArgs } from './npm';
 import { getPackageManager, getPackageManagerSync } from './package-manager';
 import { InstallConfig, PackageList, Packages, StdioOption } from './types';
-import { constructYarnArguments } from './yarn';
+import { constructYarnArguments, yarnProjectInstallArgs } from './yarn';
 
 /**
  * Default options for `install` and `installSync`
@@ -59,9 +59,11 @@ export async function install(
 
 /**
  * SYNC VERSION. Installs a passed set of packages using either npm or yarn. Depending on:
+ *
  * 1) If you specify a preferred package manager
  * 2) If the program is currently running in an npm or yarn script (using npm run or yarn run)
- * 3) What package manager is available
+ * 3) If there is a yarn.lock or package-lock.json available
+ * 4) What package manager is available
  *
  * @export
  * @param {Packages} packages List or object of packages to be installed
@@ -79,6 +81,54 @@ export function installSync(
   const getArguments =
     pkgManager === 'npm' ? constructNpmArguments : constructYarnArguments;
   const args = getArguments(packageList, config);
+
+  return execa.sync(pkgManager, args, getExecaConfig(config));
+}
+
+/**
+ * Runs `npm install` or `yarn install` for the project. Depending on:
+ *
+ * 1) If you specify a preferred package manager
+ * 2) If the program is currently running in an npm or yarn script (using npm run or yarn run)
+ * 3) If there is a yarn.lock or package-lock.json available
+ * 4) What package manager is available
+ *
+ * @export
+ * @param {Partial<InstallConfig>} [options={}] Options to modify behavior
+ * @returns {Promise<execa.ExecaReturns>}
+ */
+export async function projectInstall(
+  options: Partial<InstallConfig> = defaultInstallConfig
+): Promise<execa.ExecaReturns> {
+  const config: InstallConfig = { ...defaultInstallConfig, ...options };
+  const pkgManager = await getPackageManager(config);
+
+  const args =
+    pkgManager === 'npm' ? npmProjectInstallArgs : yarnProjectInstallArgs;
+
+  return execa(pkgManager, args, getExecaConfig(config));
+}
+
+/**
+ * SYNC VERSION. Runs `npm install` or `yarn install` for the project. Depending on:
+ *
+ * 1) If you specify a preferred package manager
+ * 2) If the program is currently running in an npm or yarn script (using npm run or yarn run)
+ * 3) If there is a yarn.lock or package-lock.json available
+ * 4) What package manager is available
+ *
+ * @export
+ * @param {Partial<InstallConfig>} [options={}] Options to modify behavior
+ * @returns {execa.ExecaReturns}
+ */
+export function projectInstallSync(
+  options: Partial<InstallConfig> = defaultInstallConfig
+): execa.ExecaReturns {
+  const config: InstallConfig = { ...defaultInstallConfig, ...options };
+  const pkgManager = getPackageManagerSync(config);
+
+  const args =
+    pkgManager === 'npm' ? npmProjectInstallArgs : yarnProjectInstallArgs;
 
   return execa.sync(pkgManager, args, getExecaConfig(config));
 }
