@@ -1,6 +1,6 @@
 {
   "name": "pkg-install",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A wrapper making installation of Node.js packages from code easier",
   "main": "lib/index.js",
   "scripts": {
