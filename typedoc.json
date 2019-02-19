@@ -1,0 +1,8 @@
+{
+  "name": "pkg-install",
+
+  "mode": "modules",
+  "out": "docs",
+  "theme": "default",
+  "exclude": ["**/__tests__/*.ts", "**/helpers.ts", "**/npm.ts", "**/yarn.ts"]
+}

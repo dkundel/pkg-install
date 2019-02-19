@@ -3,6 +3,7 @@
   "version": "0.0.5",
   "description": "A wrapper making installation of Node.js packages from code easier",
   "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
   "scripts": {
     "prepare": "npm run build",
     "start": "npm run dev",
@@ -30,6 +31,9 @@
     "jest": "^24.1.0",
     "ora": "^3.1.0",
     "ts-jest": "^24.0.0",
+    "typedoc": "^0.14.2",
+    "typedoc-plugin-external-module-name": "^2.0.0",
+    "typedoc-plugin-internal-external": "^2.0.1",
     "typescript": "^3.3.3"
   },
   "config": {

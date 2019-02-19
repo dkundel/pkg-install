@@ -1,17 +1,17 @@
-import { defaultConfig } from '../install';
+import { defaultInstallConfig } from '../install';
 import { constructNpmArguments } from '../npm';
 
 describe('constructNpmArguments', () => {
   const packageList = ['twilio', 'twilio-run@1'];
 
   it('should handle default config', () => {
-    const output = constructNpmArguments(packageList, defaultConfig);
+    const output = constructNpmArguments(packageList, defaultInstallConfig);
     expect(output).toEqual(['install', ...packageList]);
   });
 
   it('should add dev flag', () => {
     const output = constructNpmArguments(packageList, {
-      ...defaultConfig,
+      ...defaultInstallConfig,
       dev: true,
     });
     expect(output).toEqual(['install', ...packageList, '--save-dev']);
@@ -19,7 +19,7 @@ describe('constructNpmArguments', () => {
 
   it('should add exact flag', () => {
     const output = constructNpmArguments(packageList, {
-      ...defaultConfig,
+      ...defaultInstallConfig,
       exact: true,
     });
     expect(output).toEqual(['install', ...packageList, '--save-exact']);
@@ -27,7 +27,7 @@ describe('constructNpmArguments', () => {
 
   it('should add verbose flag', () => {
     const output = constructNpmArguments(packageList, {
-      ...defaultConfig,
+      ...defaultInstallConfig,
       verbose: true,
     });
     expect(output).toEqual(['install', ...packageList, '--verbose']);
@@ -35,7 +35,7 @@ describe('constructNpmArguments', () => {
 
   it('should add bundle flag', () => {
     const output = constructNpmArguments(packageList, {
-      ...defaultConfig,
+      ...defaultInstallConfig,
       bundle: true,
     });
     expect(output).toEqual(['install', ...packageList, '--save-bundle']);
@@ -43,7 +43,7 @@ describe('constructNpmArguments', () => {
 
   it('should handle noSave flag', () => {
     const output = constructNpmArguments(packageList, {
-      ...defaultConfig,
+      ...defaultInstallConfig,
       noSave: true,
     });
     expect(output).toEqual(['install', ...packageList, '--no-save']);
@@ -51,7 +51,7 @@ describe('constructNpmArguments', () => {
 
   it('should handle global flag', () => {
     const output = constructNpmArguments(packageList, {
-      ...defaultConfig,
+      ...defaultInstallConfig,
       global: true,
     });
     expect(output).toEqual(['install', '-g', ...packageList]);
@@ -59,7 +59,7 @@ describe('constructNpmArguments', () => {
 
   it('should handle all flags', () => {
     const output = constructNpmArguments(packageList, {
-      ...defaultConfig,
+      ...defaultInstallConfig,
       dev: true,
       exact: true,
       verbose: true,

@@ -1,3 +1,9 @@
+import { InstallConfig, PackageList } from './types';
+
+/**
+ * @internal
+ */
+
 export function constructNpmArguments(
   packageList: PackageList,
   config: InstallConfig

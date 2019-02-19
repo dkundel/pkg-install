@@ -1,3 +1,5 @@
+import { InstallConfig, PackageList } from './types';
+
 export function constructYarnArguments(
   packageList: PackageList,
   config: InstallConfig

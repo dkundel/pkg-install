@@ -1,5 +1,15 @@
-import execa from 'execa';
+/** @module pkg-install */
 
+import execa from 'execa';
+import { InstallConfig, SupportedPackageManagers } from './types';
+
+/**
+ * Checks if a given package manager is currently installed by checking its version
+ *
+ * @export
+ * @param {SupportedPackageManagers} manager
+ * @returns {Promise<boolean>}
+ */
 export async function isManagerInstalled(
   manager: SupportedPackageManagers
 ): Promise<boolean> {
@@ -7,6 +17,13 @@ export async function isManagerInstalled(
   return !result.failed;
 }
 
+/**
+ * SYNC: Checks if a given package manager is currently installed by checking its version
+ *
+ * @export
+ * @param {SupportedPackageManagers} manager
+ * @returns {boolean}
+ */
 export function isManagerInstalledSync(
   manager: SupportedPackageManagers
 ): boolean {
@@ -14,6 +31,17 @@ export function isManagerInstalledSync(
   return !result.failed;
 }
 
+/**
+ * Returns the package manager currently active if the program is executed
+ * through an npm or yarn script like:
+ * ```bash
+ * yarn run example
+ * npm run example
+ * ```
+ *
+ * @export
+ * @returns {(SupportedPackageManagers | null)}
+ */
 export function getCurrentPackageManager(): SupportedPackageManagers | null {
   const userAgent = process.env.npm_config_user_agent;
   if (!userAgent) {
@@ -31,6 +59,14 @@ export function getCurrentPackageManager(): SupportedPackageManagers | null {
   return null;
 }
 
+/**
+ * Determine what package manager to use based on what preference is set,
+ * and whether it's currently running in a yarn/npm script
+ *
+ * @export
+ * @param {InstallConfig} config
+ * @returns {Promise<SupportedPackageManagers>}
+ */
 export async function getPackageManager(
   config: InstallConfig
 ): Promise<SupportedPackageManagers> {
@@ -51,6 +87,14 @@ export async function getPackageManager(
   return pkgManager;
 }
 
+/**
+ * SYNC: Determine what package manager to use based on what preference is set,
+ * and whether it's currently running in a yarn/npm script
+ *
+ * @export
+ * @param {InstallConfig} config
+ * @returns {SupportedPackageManagers}
+ */
 export function getPackageManagerSync(
   config: InstallConfig
 ): SupportedPackageManagers {

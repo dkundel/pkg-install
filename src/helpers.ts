@@ -1,4 +1,5 @@
 import execa from 'execa';
+import { InstallConfig, PackageList, Packages } from './types';
 
 export function getPackageList(packages: Packages): PackageList {
   if (Array.isArray(packages)) {
