@@ -36,6 +36,9 @@ const { install } = require('pkg-install');
 })();
 ```
 
+> Full documentation of available functions and configuration can be found on:
+> [pkg-install.dkundel.com](https://pkg-install.dkundel.com/modules/pkg_install.html)
+
 ## License
 
 MIT
