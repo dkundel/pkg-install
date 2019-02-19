@@ -1,0 +1,12 @@
+{
+  "name": "pkg-install",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Dominik Kundel <dominik.kundel@gmail.com> (https://dkundel.com)",
+  "license": "MIT"
+}
