@@ -62,6 +62,8 @@ Full documentation of available functions and configuration can be found on:
 
 At the current moment `yarn` has no equivalent flags for `--save-bundle` or `--no-save`. These will be ignored when `yarn` has been detected as package manager.
 
+The flags that were ignored in the run are returned as the `ignoredFlags` property.
+
 ### 2. Different behavior of modifying `package.json`
 
 This library uses `npm` and `yarn` under the hood and currently `npm install` and `yarn add` have different behaviors when passing versions to the package names
