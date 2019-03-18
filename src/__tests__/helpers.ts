@@ -1,4 +1,5 @@
-import { getPackageList } from '../helpers';
+import { defaultInstallConfig } from '../config';
+import { getExecaConfig, getPackageList } from '../helpers';
 
 describe('getPackageList', () => {
   it('should handle arrays', () => {
@@ -22,5 +23,21 @@ describe('getPackageList', () => {
     };
     const output = getPackageList(input);
     expect(output).toEqual(['twilio@^3', 'node-env-run@1', 'twilio-run']);
+  });
+});
+
+describe('getExecaConfig', () => {
+  it('should extract the right config parameters', () => {
+    const config = {
+      ...defaultInstallConfig,
+      stdio: 'inherit' as 'inherit',
+      cwd: '/some/user/path',
+    };
+
+    const output = getExecaConfig(config);
+    expect(output).toEqual({
+      stdio: 'inherit',
+      cwd: '/some/user/path',
+    });
   });
 });

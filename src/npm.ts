@@ -1,33 +1,45 @@
-import { InstallConfig, PackageList } from './types';
+import { InstallConfig, PackageManagerFlag } from './config';
+import { getFlagsToSet } from './flags';
+import { UnreachableCaseError } from './helpers';
+import { ConstructArgumentsResult, PackageList } from './types';
 
 export function constructNpmArguments(
   packageList: PackageList,
   config: InstallConfig
-): string[] {
+): ConstructArgumentsResult {
+  const flagsToSet = getFlagsToSet(config);
   const globalCommand = config.global ? ['-g'] : [];
   const args: string[] = ['install', ...globalCommand, ...packageList];
 
-  if (config.dev) {
-    args.push('--save-dev');
-  }
+  const ignoredFlags: PackageManagerFlag[] = [];
+  flagsToSet.forEach(flag => {
+    switch (flag) {
+      case 'dev':
+        if (!config.global) {
+          args.push('--save-dev');
+        } else {
+          ignoredFlags.push(flag);
+        }
+        break;
+      case 'exact':
+        args.push('--save-exact');
+        break;
+      case 'verbose':
+        args.push('--verbose');
+        break;
+      case 'bundle':
+        args.push('--save-bundle');
+        break;
+      case 'noSave':
+        args.push('--no-save');
+        break;
+      /* istanbul ignore next */
+      default:
+        throw new UnreachableCaseError(flag);
+    }
+  });
 
-  if (config.exact) {
-    args.push('--save-exact');
-  }
-
-  if (config.bundle) {
-    args.push('--save-bundle');
-  }
-
-  if (config.noSave) {
-    args.push('--no-save');
-  }
-
-  if (config.verbose) {
-    args.push('--verbose');
-  }
-
-  return args;
+  return { args, ignoredFlags };
 }
 
 export const npmProjectInstallArgs = ['install'];

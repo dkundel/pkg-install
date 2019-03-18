@@ -1,5 +1,6 @@
 import execa from 'execa';
-import { InstallConfig, PackageList, Packages } from './types';
+import { InstallConfig } from './config';
+import { PackageList, Packages } from './types';
 
 export function getPackageList(packages: Packages): PackageList {
   if (Array.isArray(packages)) {
@@ -25,4 +26,14 @@ export function getExecaConfig(config: InstallConfig): execa.CommonOptions {
     stdio: config.stdio,
     cwd: config.cwd,
   };
+}
+
+/**
+ * Error class used for cases that can't be reached. It's a helper for TypeScript
+ */
+export class UnreachableCaseError extends Error {
+  /* istanbul ignore next */
+  constructor(val: never) {
+    super(`Unreachable case: ${val}`);
+  }
 }

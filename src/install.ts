@@ -1,34 +1,19 @@
 /** @module pkg-install */
 
 import execa from 'execa';
+import {
+  defaultInstallConfig,
+  InstallConfig,
+  PackageManagerFlag,
+} from './config';
 import { getExecaConfig, getPackageList } from './helpers';
 import { constructNpmArguments, npmProjectInstallArgs } from './npm';
 import { getPackageManager, getPackageManagerSync } from './package-manager';
-import { InstallConfig, PackageList, Packages, StdioOption } from './types';
+import { PackageList, Packages } from './types';
 import { constructYarnArguments, yarnProjectInstallArgs } from './yarn';
 
-/**
- * Default options for `install` and `installSync`
- */
-export const defaultInstallConfig = {
-  /** Installs the passed dependencies as dev dependencies */
-  dev: false,
-  /** Allows you to "force" package manager if available */
-  prefer: null,
-  /** Uses the save exact functionality of pkg manager */
-  exact: false,
-  /** Does not write the dependency to package.json (*only available for npm*) */
-  noSave: false,
-  /** Saves dependency as bundled dependency (*only available for npm*) */
-  bundle: false,
-  /** Runs package manager in verbose mode */
-  verbose: false,
-  /** Installs packages globally */
-  global: false,
-  /** Passes to execa in which way the I/O should be passed */
-  stdio: 'pipe' as StdioOption,
-  /** Working directory in which to run the package manager */
-  cwd: process.cwd(),
+export type InstallResult = execa.ExecaReturns & {
+  ignoredFlags: PackageManagerFlag[];
 };
 
 /**
@@ -40,21 +25,25 @@ export const defaultInstallConfig = {
  * @export
  * @param {Packages} packages List or object of packages to be installed
  * @param {Partial<InstallConfig>} [options={}] Options to modify behavior
- * @returns {Promise<execa.ExecaReturns>}
+ * @returns {Promise<InstallResult>}
  */
 export async function install(
   packages: Packages,
   options: Partial<InstallConfig> = defaultInstallConfig
-): Promise<execa.ExecaReturns> {
+): Promise<InstallResult> {
   const config: InstallConfig = { ...defaultInstallConfig, ...options };
   const pkgManager = await getPackageManager(config);
 
   const packageList = getPackageList(packages);
   const getArguments =
     pkgManager === 'npm' ? constructNpmArguments : constructYarnArguments;
-  const args = getArguments(packageList, config);
+  const { args, ignoredFlags } = getArguments(packageList, config);
 
-  return execa(pkgManager, args, getExecaConfig(config));
+  const result = await execa(pkgManager, args, getExecaConfig(config));
+  return {
+    ...result,
+    ignoredFlags,
+  };
 }
 
 /**
@@ -68,21 +57,25 @@ export async function install(
  * @export
  * @param {Packages} packages List or object of packages to be installed
  * @param {Partial<InstallConfig>} [options={}] Options to modify behavior
- * @returns {execa.ExecaReturns}
+ * @returns {InstallResult}
  */
 export function installSync(
   packages: PackageList,
   options: Partial<InstallConfig> = defaultInstallConfig
-): execa.ExecaReturns {
+): InstallResult {
   const config: InstallConfig = { ...defaultInstallConfig, ...options };
   const pkgManager = getPackageManagerSync(config);
 
   const packageList = getPackageList(packages);
   const getArguments =
     pkgManager === 'npm' ? constructNpmArguments : constructYarnArguments;
-  const args = getArguments(packageList, config);
+  const { args, ignoredFlags } = getArguments(packageList, config);
 
-  return execa.sync(pkgManager, args, getExecaConfig(config));
+  const result = execa.sync(pkgManager, args, getExecaConfig(config));
+  return {
+    ...result,
+    ignoredFlags,
+  };
 }
 
 /**

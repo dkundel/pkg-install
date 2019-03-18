@@ -1,25 +1,43 @@
-import { InstallConfig, PackageList } from './types';
+import { InstallConfig, PackageManagerFlag } from './config';
+import { getFlagsToSet } from './flags';
+import { UnreachableCaseError } from './helpers';
+import { ConstructArgumentsResult, PackageList } from './types';
 
 export function constructYarnArguments(
   packageList: PackageList,
   config: InstallConfig
-): string[] {
+): ConstructArgumentsResult {
+  const flagsToSet = getFlagsToSet(config);
   const globalCommand = config.global ? ['global'] : [];
   const args: string[] = [...globalCommand, 'add', ...packageList];
 
-  if (config.dev) {
-    args.push('--dev');
-  }
+  const ignoredFlags: PackageManagerFlag[] = [];
+  flagsToSet.forEach(flag => {
+    switch (flag) {
+      case 'dev':
+        if (!config.global) {
+          args.push('--dev');
+        } else {
+          ignoredFlags.push(flag);
+        }
+        break;
+      case 'exact':
+        args.push('--exact');
+        break;
+      case 'verbose':
+        args.push('--verbose');
+        break;
+      case 'bundle':
+      case 'noSave':
+        ignoredFlags.push(flag);
+        break;
+      /* istanbul ignore next */
+      default:
+        throw new UnreachableCaseError(flag);
+    }
+  });
 
-  if (config.exact) {
-    args.push('--exact');
-  }
-
-  if (config.verbose) {
-    args.push('--verbose');
-  }
-
-  return args;
+  return { args, ignoredFlags };
 }
 
 export const yarnProjectInstallArgs = ['install'];
