@@ -13,6 +13,7 @@
     "docs": "typedoc --options typedoc.json",
     "contrib:add": "all-contributors add",
     "contrib:gen": "all-contributors generate",
+    "pretest": "npm run build",
     "test": "jest"
   },
   "homepage": "https://pkg-install.dkundel.com/",
