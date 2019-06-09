@@ -5,9 +5,9 @@
 
 > Easier installation of Node.js packages irrespective of the platform or package manager.
 
-- Supports [npm](npmjs.com) and [yarn](yarnpkg.com)
+- Supports [npm](https://www.npmjs.com) and [yarn](https://www.yarnpkg.com)
 - Easy to use promise-based API
-- Uses [`execa`](npm.im/execa) under the hood
+- Uses [`execa`](https://www.npm.im/execa) under the hood
 
 ## Installation
 
