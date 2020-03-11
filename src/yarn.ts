@@ -9,7 +9,8 @@ export function constructYarnArguments(
 ): ConstructArgumentsResult {
   const flagsToSet = getFlagsToSet(config);
   const globalCommand = config.global ? ['global'] : [];
-  const args: string[] = [...globalCommand, 'add', ...packageList];
+  const cwdCommand = config.forceCwd ? ['--cwd', config.cwd] : [];
+  const args: string[] = [...cwdCommand, ...globalCommand, 'add', ...packageList];
 
   const ignoredFlags: PackageManagerFlag[] = [];
   flagsToSet.forEach(flag => {

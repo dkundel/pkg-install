@@ -9,7 +9,8 @@ export function constructNpmArguments(
 ): ConstructArgumentsResult {
   const flagsToSet = getFlagsToSet(config);
   const globalCommand = config.global ? ['-g'] : [];
-  const args: string[] = ['install', ...globalCommand, ...packageList];
+  const cwdCommand = config.forceCwd ? ['--prefix', config.cwd] : [];
+  const args: string[] = ['install', ...globalCommand, ...cwdCommand, ...packageList];
 
   const ignoredFlags: PackageManagerFlag[] = [];
   flagsToSet.forEach(flag => {

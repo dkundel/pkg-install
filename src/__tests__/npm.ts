@@ -77,6 +77,15 @@ describe('constructNpmArguments', () => {
     expect(ignoredFlags.length).toBe(0);
   });
 
+  it('should handle forceCwd flag', () => {
+    const { args: output, ignoredFlags } = constructNpmArguments(packageList, {
+      ...defaultInstallConfig,
+      forceCwd: true,
+    });
+    expect(output).toEqual(['install', '--prefix', process.cwd(), ...packageList]);
+    expect(ignoredFlags.length).toBe(0);
+  });
+
   it('should handle all flags', () => {
     const { args: output, ignoredFlags } = constructNpmArguments(packageList, {
       ...defaultInstallConfig,
