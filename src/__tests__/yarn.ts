@@ -77,6 +77,15 @@ describe('constructYarnArguments', () => {
     expect(ignoredFlags.length).toBe(0);
   });
 
+  it('should handle forceCwd flag', () => {
+    const { args: output, ignoredFlags } = constructYarnArguments(packageList, {
+      ...defaultInstallConfig,
+      forceCwd: true,
+    });
+    expect(output).toEqual(['--cwd', process.cwd(), 'add', ...packageList]);
+    expect(ignoredFlags.length).toBe(0);
+  });
+
   it('should handle all flags', () => {
     const { args: output, ignoredFlags } = constructYarnArguments(packageList, {
       ...defaultInstallConfig,

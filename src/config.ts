@@ -45,6 +45,8 @@ export type InstallConfig = PackageManagerFlagConfig &
   GenericInstallConfig & {
     /** Installs packages globally */
     global: boolean;
+    /** Passes cwd value within the parameters */
+    forceCwd: boolean;
   };
 
 export type ProjectInstallConfig = GenericInstallConfig &
@@ -72,4 +74,6 @@ export const defaultInstallConfig: InstallConfig = {
   stdio: 'pipe' as StdioOption,
   /** Working directory in which to run the package manager */
   cwd: process.cwd(),
+  /** Passes cwd value within the parameters */
+  forceCwd: false
 };

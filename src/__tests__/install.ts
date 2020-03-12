@@ -59,11 +59,13 @@ describe('install', () => {
     const result = await install(['twilio'], {
       noSave: true,
       global: true,
+      forceCwd: true,
     });
     const expectedConfig = {
       ...defaultInstallConfig,
       noSave: true,
       global: true,
+      forceCwd: true,
     };
     expect(getPackageManager).toHaveBeenCalledWith(expectedConfig);
   });
@@ -110,11 +112,13 @@ describe('installSync', () => {
     const result = installSync(['twilio'], {
       noSave: true,
       global: true,
+      forceCwd: true,
     });
     const expectedConfig = {
       ...defaultInstallConfig,
       noSave: true,
       global: true,
+      forceCwd: true,
     };
     expect(getPackageManager).toHaveBeenCalledWith(expectedConfig);
   });
